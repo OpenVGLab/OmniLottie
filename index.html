@@ -212,6 +212,11 @@
                             <span class="author-block"><sup>*</sup>Project Lead,</span>
                             <span class="author-block"><sup>&ddagger;</sup>Correspondence Authors</span>
                         </div>
+
+                        <div class="is-size-3 publication-authors" style="margin-top: 15px;">
+                            <span style="font-weight: bold; color: #b39ddb;">Accepted by CVPR 2026</span>
+                        </div>
+
                         <div class="is-size-5 publication-authors">
                             <span class="author-block"><sup>1</sup>Fudan University,</span>
                             <span class="author-block"><sup>2</sup>StepFun,</span>
@@ -317,7 +322,7 @@
                     <h2 class="title is-4">Highlights</h2>
                     <div class="columns is-centered" style="text-align: center">
                         <div class="column" style="align-self: center">
-                            <img src="./assets/OmniLottie-teaser.jpg" alt="OmniLottie Teaser">
+                            <img src="./assets/OmniLottie-teaser.png" alt="OmniLottie Teaser">
                         </div>
                     </div>
                     <div class="content has-text-justified" style="padding-top: 15px">
@@ -334,30 +339,13 @@
                     <h2 class="title is-4">Method Overview</h2>
                     <div class="columns is-centered" style="text-align: center">
                         <div class="column" style="align-self: center">
-                            <img src="./assets/OmniLottie-pipeline.jpg" alt="OmniLottie Pipeline">
+                            <img src="./assets/OmniLottie-pipeline.png" alt="OmniLottie Pipeline">
                         </div>
                     </div>
                     <div class="content has-text-justified" style="padding-top: 15px">
                         OmniLottie is built on a pre-trained vision-language model (Qwen2.5-VL) and incorporates a Lottie tokenizer. 
                         The model tokenizes both text and image/video inputs as prefix tokens, while the Lottie tokenizer encodes vector animation commands into a unified representation space.
                         The Lottie tokenizer abstracts Lottie animations into compact sequences of animation commands and control parameters, removing redundant metadata while preserving full generative flexibility.
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lottie Tokenizer Details -->
-            <div class="columns is-centered" style="margin-top: 15px">
-                <div class="column is-full-width">
-                    <h2 class="title is-4">Lottie Tokenizer</h2>
-                    <div class="columns is-centered" style="text-align: center">
-                        <div class="column" style="align-self: center">
-                            <img src="./assets/OmniLottie-tokenizer.jpg" alt="Lottie Tokenizer">
-                        </div>
-                    </div>
-                    <div class="content has-text-justified" style="padding-top: 15px">
-                        Our Lottie tokenizer converts raw JSON files into compact sequences of shape, effect, and animation commands with their associated parameters.
-                        This representation substantially shortens sequence lengths (81% reduction compared to raw JSON), improves token efficiency, and enables OmniLottie to learn a clean distribution over animation primitives.
-                        The tokenizer supports five fundamental layer types: Precomposition, Solid, Null, Shape, and Text layers, each identified by a unique type parameter.
                     </div>
                 </div>
             </div>
@@ -374,19 +362,19 @@
                         <div id="post_images" class="carousel">
                             <div class="item-1">
                                 <video poster="" autoplay="" muted loop="" style="pointer-events: none;">
-                                    <source src="./assets/OmniLottie-demo-text2lottie.mp4" type="video/mp4">
+                                    <source src="./assets/OmniLottie-demo-1.mp4" type="video/mp4">
                                 </video>
                                 <p class="has-text-centered"><b>Text-to-Lottie Generation</b></p>
                             </div>
                             <div class="item-2">
                                 <video poster="" autoplay="" muted loop="" style="pointer-events: none;">
-                                    <source src="./assets/OmniLottie-demo-image2lottie.mp4" type="video/mp4">
+                                    <source src="./assets/OmniLottie-demo-2.mp4" type="video/mp4">
                                 </video>
                                 <p class="has-text-centered"><b>Text-Image-to-Lottie Generation</b></p>
                             </div>
                             <div class="item-3">
                                 <video poster="" autoplay="" muted loop="" style="pointer-events: none;">
-                                    <source src="./assets/OmniLottie-demo-video2lottie.mp4" type="video/mp4">
+                                    <source src="./assets/OmniLottie-demo-3.mp4" type="video/mp4">
                                 </video>
                                 <p class="has-text-centered"><b>Video-to-Lottie Generation</b></p>
                             </div>
@@ -415,7 +403,7 @@
                     </div>
                     <div class="columns is-centered">
                         <div class="column" style="align-self: center">
-                            <img src="./assets/OmniLottie-t2lottie.jpg" alt="Text-to-Lottie Comparison">
+                            <img src="./assets/OmniLottie-t2lottie.png" alt="Text-to-Lottie Comparison">
                         </div>
                     </div>
 
@@ -425,7 +413,7 @@
                     </div>
                     <div class="columns is-centered">
                         <div class="column" style="align-self: center">
-                            <img src="./assets/OmniLottie-ti2lottie.jpg" alt="Text-Image-to-Lottie Comparison">
+                            <img src="./assets/OmniLottie-ti2lottie.png" alt="Text-Image-to-Lottie Comparison">
                         </div>
                     </div>
 
@@ -435,7 +423,7 @@
                     </div>
                     <div class="columns is-centered">
                         <div class="column" style="align-self: center">
-                            <img src="./assets/OmniLottie-v2lottie.jpg" alt="Video-to-Lottie Comparison">
+                            <img src="./assets/OmniLottie-v2lottie.png" alt="Video-to-Lottie Comparison">
                         </div>
                     </div>
                 </div>
@@ -445,11 +433,6 @@
             <div class="columns is-centered" style="margin-top: 20px">
                 <div class="column is-full-width">
                     <h2 class="title is-4">Quantitative Results</h2>
-                    <div class="columns is-centered">
-                        <div class="column" style="align-self: center">
-                            <img src="./assets/OmniLottie-quantitative-table.jpg" alt="Quantitative Results">
-                        </div>
-                    </div>
                     <div class="content has-text-justified" style="padding-top: 15px">
                         OmniLottie achieves 97.3%, 92.0%, and 90.7% success rates for Text-to-Lottie, Text-Image-to-Lottie, and Video-to-Lottie tasks respectively, 
                         substantially outperforming all baselines while producing richer token sequences that enable more expressive and detailed vector animation generation.
@@ -461,11 +444,6 @@
             <div class="columns is-centered" style="margin-top: 20px">
                 <div class="column is-full-width">
                     <h3 class="title is-4">MMLottie-2M Dataset</h3>
-                    <div class="columns is-centered">
-                        <div class="column" style="align-self: center">
-                            <img src="./assets/MMLottie-dataset.jpg" alt="MMLottie-2M Dataset">
-                        </div>
-                    </div>
                     <div class="content has-text-justified" style="padding-top: 15px">
                         The MMLottie-2M dataset consists of two million Lottie animations paired with multi-modal annotations including text descriptions, keyframe images, and rendered videos.
                         Data is collected from major online platforms (LottieFiles, IconScout, Flaticon, Iconfont, Icons8) and augmented with SVG-derived animations.
@@ -480,7 +458,7 @@
                     <h3 class="title is-4">Data Processing Pipeline</h3>
                     <div class="columns is-centered">
                         <div class="column" style="align-self: center">
-                            <img src="./assets/OmniLottie-data-pipeline.jpg" alt="Data Processing Pipeline">
+                            <img src="./assets/OmniLottie-data-pipeline.png" alt="Data Processing Pipeline">
                         </div>
                     </div>
                     <div class="content has-text-justified" style="padding-top: 15px">
