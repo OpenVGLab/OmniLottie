@@ -739,12 +739,12 @@
       const buttons = [...document.querySelectorAll('#overlayControls .overlay-btn')];
       if (!videos.length || !buttons.length) return;
 
-      const switchTo = (index) => {
+      const switchTo = (index, fromStart = false) => {
         videos.forEach((video, i) => {
           const active = i === index;
           video.classList.toggle('active', active);
           if (active) {
-            video.currentTime = video.currentTime || 0;
+            if (fromStart) video.currentTime = 0;
             video.play().catch(() => {});
           }
         });
@@ -759,13 +759,13 @@
         overlayTimer = setInterval(() => {
           current = (current + 1) % videos.length;
           switchTo(current);
-        }, 4500);
+        }, 10000);
       }
 
       buttons.forEach((button) => {
         button.addEventListener('click', () => {
           const idx = Number(button.dataset.index || 0);
-          switchTo(idx);
+          switchTo(idx, true);
           restartTimer(idx);
         });
       });
@@ -851,13 +851,7 @@
       const canvas = document.createElement('div');
       canvas.className = 'lottie-canvas';
 
-      const label = document.createElement('div');
-      label.className = 'lottie-name';
-      label.textContent = prettyName(file);
-      label.title = prettyName(file);
-
       card.appendChild(canvas);
-      card.appendChild(label);
 
       const animation = window.lottie.loadAnimation({
         container: canvas,
@@ -960,7 +954,7 @@
 
       const { files, baseDir, source } = await loadAllJsonFiles();
       if (!files.length) {
-        statusEl.textContent = '未找到 JSON 资源，请检查 assets/demo_new_set 目录或 manifest.json';
+        statusEl.textContent = 'No Lottie files found, please check the assets/demo_new_set directory or manifest.json';
         return;
       }
 
@@ -988,10 +982,10 @@
         try {
           await navigator.clipboard.writeText(text);
           btn.textContent = '已复制';
-          setTimeout(() => { btn.textContent = '复制 Citation'; }, 1200);
+          setTimeout(() => { btn.textContent = 'Copied Citation'; }, 1200);
         } catch (_) {
           btn.textContent = '复制失败';
-          setTimeout(() => { btn.textContent = '复制 Citation'; }, 1200);
+          setTimeout(() => { btn.textContent = 'Copied Citation'; }, 1200);
         }
       });
     }
