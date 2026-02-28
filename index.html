@@ -653,7 +653,6 @@
     <section class="panel">
       <div class="section-head">
         <h2>Generated Lottie Gallery</h2>
-        <!-- <p>3 行反向流式跑马灯 · Hover 即暂停</p> -->
       </div>
       <div id="lottieStatus" class="status">Loading...</div>
       <div id="lottieRows" class="lottie-rows"></div>
@@ -893,7 +892,7 @@
         track,
         laneIndex,
         direction,
-        speed: 0.34 + laneIndex * 0.08,
+        speed: (0.34 + laneIndex * 0.08) * 1.5,
         offset: 0,
         paused: false,
         gap: 10
@@ -935,7 +934,7 @@
           let last = state.track.lastElementChild;
           while (last) {
             const width = last.getBoundingClientRect().width + state.gap;
-            if (state.offset < width) break;
+            if (state.offset < 1) break;
             state.track.insertBefore(last, state.track.firstElementChild);
             state.offset -= width;
             last = state.track.lastElementChild;
@@ -958,8 +957,8 @@
         return;
       }
 
-      const rows = [[], [], []];
-      files.forEach((file, index) => rows[index % 3].push(file));
+      const rows = [[], [], [], [], []];
+      files.forEach((file, index) => rows[index % 5].push(file));
 
       rows.forEach((rowFiles, laneIndex) => {
         rowsEl.appendChild(createLane(rowFiles, baseDir, laneIndex));
