@@ -1,510 +1,1007 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en" data-theme="dark">
 <head>
-    <meta charset="utf-8">
-    <meta name="description" content="OmniLottie: Generating Vector Animations via Parameterized Lottie Tokens">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>OmniLottie: Generating Vector Animations via Parameterized Lottie Tokens</title>
+  <meta charset="utf-8">
+  <meta name="description" content="OmniLottie: Generating Vector Animations via Parameterized Lottie Tokens">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OmniLottie: Generating Vector Animations via Parameterized Lottie Tokens</title>
+  <link rel="icon" href="./static/images/lottie_icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    :root {
+      --bg: #070913;
+      --bg-soft: #101526;
+      --panel: rgba(21, 28, 52, 0.7);
+      --panel-strong: rgba(14, 18, 34, 0.9);
+      --text: #eef3ff;
+      --sub: #a8b6da;
+      --line: rgba(148, 170, 255, 0.22);
+      --primary: #9f7bff;
+      --secondary: #37d5ff;
+      --pink: #ff7ad9;
+      --gold: #ffd37f;
+      --shadow: 0 28px 52px rgba(0, 0, 0, 0.42);
+      --chip: rgba(155, 129, 255, 0.18);
+      --btn-text: #0d1329;
+      --button-bg: linear-gradient(135deg, #b194ff, #62e6ff);
+      --card-bg: linear-gradient(140deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+      --edge-mask: rgba(7, 9, 19, 1);
+    }
 
-    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="./static/css/bulma.min.css">
-    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
-    <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
-    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-    <link rel="stylesheet" href="./static/css/index.css">
-    <link rel="icon" href="./static/images/lottie_icon.png"/>
+    html[data-theme="light"] {
+      --bg: #edf2ff;
+      --bg-soft: #ffffff;
+      --panel: rgba(255, 255, 255, 0.72);
+      --panel-strong: rgba(255, 255, 255, 0.88);
+      --text: #1a2444;
+      --sub: #5a668b;
+      --line: rgba(111, 131, 223, 0.24);
+      --primary: #7d55ff;
+      --secondary: #00c9eb;
+      --pink: #ff5fc8;
+      --gold: #ffb546;
+      --shadow: 0 24px 42px rgba(100, 120, 186, 0.22);
+      --chip: rgba(126, 86, 255, 0.12);
+      --btn-text: #ffffff;
+      --button-bg: linear-gradient(135deg, #9068ff, #00c8eb);
+      --card-bg: linear-gradient(140deg, rgba(255, 255, 255, 0.95), rgba(239, 246, 255, 0.68));
+      --edge-mask: rgba(237, 242, 255, 1);
+    }
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script defer src="./static/js/fontawesome.all.min.js"></script>
-    <script src="./static/js/bulma-slider.min.js"></script>
-    <script src="./static/js/index.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    * { box-sizing: border-box; }
 
-    <style>
-        body {
-            margin: auto;
-            font-family: Arial, sans-serif;
-        }
+    html, body { width: 100%; }
 
-        nav {
-            position: auto;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: ghostwhite;
-            z-index: 100;
-            box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
-        }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      background:
+        radial-gradient(900px 700px at 8% -10%, rgba(192, 120, 255, 0.32), transparent 55%),
+        radial-gradient(1000px 740px at 95% -12%, rgba(61, 216, 255, 0.28), transparent 58%),
+        radial-gradient(860px 620px at 55% 115%, rgba(255, 124, 205, 0.22), transparent 65%),
+        linear-gradient(160deg, var(--bg), var(--bg-soft));
+      transition: background 0.35s ease, color 0.25s ease;
+      overflow-x: hidden;
+    }
 
-        nav ul {
-            padding: 0;
-            margin: auto;
-            list-style: none;
-            display: flex;
-            justify-content: center;
-        }
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image:
+        linear-gradient(rgba(130, 150, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(130, 150, 255, 0.08) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.88), transparent 78%);
+      opacity: 0.5;
+    }
 
-        nav ul li {
-            margin: auto;
-        }
+    .aurora {
+      position: fixed;
+      border-radius: 999px;
+      filter: blur(44px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.44;
+      animation: drift 11s ease-in-out infinite;
+    }
 
-        nav ul li a {
-            display: block;
-            padding: 5px;
-            text-decoration: none;
-            transition: background-color 0.3s;
-        }
+    .aurora.a1 {
+      width: 360px;
+      height: 360px;
+      left: -90px;
+      top: 40px;
+      background: rgba(175, 134, 255, 0.9);
+    }
 
-        nav ul li a:hover {
-            background-color: #555;
-        }
+    .aurora.a2 {
+      width: 300px;
+      height: 300px;
+      right: -60px;
+      top: 180px;
+      background: rgba(81, 218, 255, 0.86);
+      animation-delay: -4s;
+    }
 
-        .title {
-            font-size: 41px;
-        }
+    .aurora.a3 {
+      width: 340px;
+      height: 340px;
+      left: 40%;
+      bottom: -110px;
+      background: rgba(255, 126, 203, 0.74);
+      animation-delay: -7s;
+    }
 
-        .teaserTitle {
-            font-size: 76px;
-        }
+    @keyframes drift {
+      0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+      50% { transform: translate3d(0, -22px, 0) scale(1.05); }
+    }
 
-        .subTeaserTitle {
-            font-size: 15px;
-        }
+    .shell {
+      position: relative;
+      z-index: 1;
+      width: min(1280px, calc(100% - 28px));
+      margin: 18px auto 28px;
+      display: grid;
+      gap: 16px;
+    }
 
-        .carousel-indicators {
-            bottom: -26px;
-        }
+    .panel {
+      position: relative;
+      border-radius: 28px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      overflow: hidden;
+      isolation: isolate;
+    }
 
-        .carousel-control.left,
-        .carousel-control.right {
-            background-image: none !important;
-            filter: none !important;
-            width: 20px;
-        }
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: -40% 50% auto -20%;
+      height: 80%;
+      transform: rotate(-8deg);
+      background: linear-gradient(120deg, rgba(159, 123, 255, 0.16), rgba(55, 213, 255, 0.08), transparent);
+      z-index: -1;
+      pointer-events: none;
+    }
 
-        .columns {
-            display: flex;
-            flex-wrap: wrap;
-        }
+    .hero {
+      text-align: center;
+      padding-top: 18px;
+      padding-bottom: 26px;
+      background: linear-gradient(150deg, var(--panel), rgba(255, 255, 255, 0.02));
+    }
 
-        .column {
-            flex: 1;
-            min-width: 150px;
-        }
+    .hero-toolbar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
 
-        .carousel-indicators ol {
-            width: 100%;
-        }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--sub);
+      padding: 7px 14px;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
 
-        .carousel-indicators li {
-            height: 3px !important;
-            border-radius: 0px !important;
-            width: 25%;
-        }
+    .theme-toggle {
+      border: none;
+      border-radius: 999px;
+      background: var(--button-bg);
+      color: var(--btn-text);
+      padding: 8px 16px;
+      font-size: 0.86rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.2s ease, filter 0.2s ease;
+      box-shadow: 0 8px 24px rgba(87, 175, 255, 0.24);
+    }
 
-        .render_wrapper {
-            position: relative;
-            height: 300px;
-        }
+    .theme-toggle:hover {
+      transform: translateY(-2px);
+      filter: saturate(1.1);
+    }
 
-        .render_wrapper_small {
-            position: relative;
-            height: 200px;
-        }
+    .hero-title {
+      margin: 6px auto 8px;
+      max-width: 940px;
+      font-size: clamp(1.42rem, 1.08rem + 1.74vw, 2.34rem);
+      line-height: 1.2;
+      letter-spacing: 0.01em;
+      text-wrap: balance;
+      background: linear-gradient(120deg, #ffffff 15%, #bdd6ff 38%, #a695ff 58%, #74e8ff 82%, #ffc0ea);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
 
-        .render_div {
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
+    html[data-theme="light"] .hero-title {
+      background: linear-gradient(120deg, #0f1b44 12%, #2f3f87 34%, #7b53ff 60%, #0086a8 84%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
 
-        #interpolation-image-wrapper-car {
-            text-align: center;
-        }
+    .hero-sub {
+      margin: 0 auto;
+      max-width: 760px;
+      color: var(--sub);
+      line-height: 1.7;
+    }
 
-        #interpolation-image-wrapper-chair {
-            text-align: center;
-        }
+    .authors, .meta-row, .links {
+      margin-top: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
 
-        .nested-columns {
-            margin-bottom: 0 !important;
-        }
+    .author-chip {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      color: var(--text);
+      border: 1px solid var(--line);
+      background: var(--chip);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 0.9rem;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
 
-        .task-icon {
-            font-size: 1.2em;
-            margin-right: 8px;
-        }
+    .author-chip:hover {
+      transform: translateY(-2px);
+      border-color: rgba(157, 188, 255, 0.48);
+    }
 
-        .highlight-box {
-            background: linear-gradient(135deg, #b39ddb 0%, #9575cd 100%);
-            border-radius: 10px;
-            padding: 20px;
-            margin: 10px 0;
-            color: white;
-        }
+    .meta-row {
+      color: var(--sub);
+      font-size: 0.93rem;
+      gap: 8px 14px;
+    }
 
-        .feature-card {
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 10px;
-            transition: box-shadow 0.3s;
-        }
+    .links { gap: 10px 12px; }
 
-        .feature-card:hover {
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-    </style>
+    .link-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 0.93rem;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 9px 13px;
+      background: linear-gradient(140deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.02));
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .link-pill:hover {
+      transform: translateY(-2px);
+      border-color: rgba(157, 188, 255, 0.48);
+      box-shadow: 0 10px 22px rgba(93, 98, 206, 0.24);
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(1.06rem, 0.93rem + 0.96vw, 1.6rem);
+      letter-spacing: 0.01em;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--sub);
+      font-size: 0.93rem;
+    }
+
+    .demo-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .video-shell {
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: var(--panel-strong);
+      padding: 12px;
+    }
+
+    .video-chip {
+      display: inline-flex;
+      margin-bottom: 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(164, 151, 255, 0.34);
+      background: rgba(167, 139, 250, 0.12);
+      color: var(--sub);
+      padding: 5px 10px;
+      font-size: 0.79rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .video-frame {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(143, 167, 255, 0.2);
+      background: #02040d;
+      aspect-ratio: 16 / 9;
+      min-height: 230px;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+    }
+
+    .video-frame video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+    }
+
+    .overlay-player {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(143, 167, 255, 0.2);
+      background: #02040d;
+      aspect-ratio: 16 / 9;
+      min-height: 230px;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+    }
+
+    .overlay-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    .overlay-video.active { opacity: 1; }
+
+    .overlay-controls {
+      margin-top: 11px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .overlay-btn {
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.09);
+      color: var(--text);
+      padding: 8px 12px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .overlay-btn.active {
+      border-color: rgba(144, 200, 255, 0.62);
+      background: linear-gradient(135deg, rgba(159, 123, 255, 0.3), rgba(55, 213, 255, 0.3));
+    }
+
+    .overlay-btn:hover { transform: translateY(-1px); }
+
+    .status {
+      color: var(--sub);
+      font-size: 0.92rem;
+      margin-bottom: 10px;
+    }
+
+    .lottie-rows {
+      display: grid;
+      gap: 10px;
+      mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+    }
+
+    .lottie-lane {
+      overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: var(--card-bg);
+      padding: 6px 0;
+    }
+
+    .lane-track {
+      display: flex;
+      gap: 10px;
+      align-items: stretch;
+      will-change: transform;
+      padding: 2px 8px;
+    }
+
+    .lottie-card {
+      width: clamp(120px, 12.2vw, 178px);
+      border-radius: 14px;
+      border: 1px solid rgba(141, 163, 255, 0.24);
+      background: linear-gradient(140deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.03));
+      flex: 0 0 auto;
+      padding: 8px;
+      display: grid;
+      gap: 6px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .lottie-card:hover {
+      transform: translateY(-2px) scale(1.01);
+      border-color: rgba(157, 188, 255, 0.6);
+    }
+
+    .lottie-canvas {
+      height: clamp(70px, 7.8vw, 118px);
+      border-radius: 10px;
+      overflow: hidden;
+      background: rgba(8, 11, 22, 0.65);
+      border: 1px solid rgba(141, 163, 255, 0.2);
+    }
+
+    html[data-theme="light"] .lottie-canvas {
+      background: rgba(245, 249, 255, 0.9);
+    }
+
+    .lottie-name {
+      color: var(--sub);
+      font-size: 0.72rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tech-grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: 1fr;
+    }
+
+    .tech-card {
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: var(--card-bg);
+      padding: 14px;
+    }
+
+    .tech-card h3 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .tech-card p {
+      margin: 8px 0 10px;
+      color: var(--sub);
+      line-height: 1.7;
+      font-size: 0.93rem;
+    }
+
+    .tech-card img {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid rgba(141, 163, 255, 0.18);
+      display: block;
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .citation-box {
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(4, 9, 24, 0.76);
+      padding: 12px;
+      overflow: auto;
+    }
+
+    html[data-theme="light"] .citation-box {
+      background: rgba(250, 252, 255, 0.9);
+    }
+
+    .citation-box pre {
+      margin: 0;
+      color: var(--sub);
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-size: 0.87rem;
+    }
+
+    .citation-actions {
+      margin-top: 10px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .copy-btn {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      font-weight: 700;
+      padding: 7px 12px;
+      cursor: pointer;
+    }
+
+    .footer {
+      text-align: center;
+      color: var(--sub);
+      font-size: 0.86rem;
+      padding-bottom: 3px;
+    }
+
+    @media (max-width: 980px) {
+      .panel { padding: 18px; border-radius: 22px; }
+      .video-frame, .overlay-player { min-height: 190px; }
+      .tech-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .shell { width: calc(100% - 16px); }
+      .hero-title { font-size: clamp(1.25rem, 1.05rem + 1.75vw, 1.84rem); }
+      .video-frame, .overlay-player { min-height: 150px; }
+      .lottie-card { width: clamp(116px, 35vw, 150px); }
+      .lottie-canvas { height: clamp(66px, 20vw, 95px); }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="bg-grid"></div>
+  <div class="aurora a1"></div>
+  <div class="aurora a2"></div>
+  <div class="aurora a3"></div>
 
-    <section class="hero">
-        <div class="hero-body">
-            <div class="container is-max-desktop">
-                <div class="columns is-centered">
-                    <div class="column has-text-centered">
-                        <h1 class="title is-0 publication-title">
-                            OmniLottie: Generating Vector Animations via Parameterized Lottie Tokens <br/>
-                        </h1>
+  <main class="shell">
+    <section class="panel hero">
+      <div class="hero-toolbar">
+        <span class="tag" style="font-size:1.20em; display:inline-flex; align-items:center; gap:0.28em;">
+          <span style="font-weight:800;">CVPR 2026</span>
+        </span>
+        <button id="themeToggle" class="theme-toggle" type="button" style="margin-left:auto;">Bright Mode</button>
+      </div>
 
-                        <style>
-                            .neurips-text {
-                                color: #b39ddb; /* 浅紫色  */
-                                font-size: 30px;
-                                font-weight: bold;
-                                text-align: center;
-                                margin-top: 10px;
-                            }
-                        </style>
+      <h1 class="hero-title">OmniLottie: Generating Vector Animations via Parameterized Lottie Tokens</h1>
+      <p class="hero-sub">
+        An open-source work by OpenVGLab
+        <a href="https://github.com/OpenVGLab" target="_blank" rel="noreferrer"
+           style="display:inline-block; margin-left:0.75em; vertical-align:middle;">
+          <img src="https://img.shields.io/github/followers/OpenVGLab?label=Follow%20%40OpenVGLab&style=social" alt="Follow @OpenVGLab on GitHub" style="height:1.2em;vertical-align:-0.18em;">
+        </a>
+      </p>
 
+      <div class="authors">
+        <a class="author-chip" href="https://github.com/YiyingYang12/YiyingYang12" target="_blank" rel="noreferrer">Yiying Yang<sup>1,2</sup></a>
+        <a class="author-chip" href="https://wchengad.github.io" target="_blank" rel="noreferrer">Wei Cheng<sup>2&dagger;</sup></a>
+        <a class="author-chip" href="https://ch3cook-fdu.github.io/" target="_blank" rel="noreferrer">Sijin Chen<sup>3</sup></a>
+        <a class="author-chip" href="https://romgai.github.io/" target="_blank" rel="noreferrer">Honghao Fu<sup>2,4</sup></a>
+        <a class="author-chip" href="https://scholar.google.com/citations?user=tgDc0fsAAAAJ&hl=en" target="_blank" rel="noreferrer">XianFang Zeng<sup>2</sup></a>
+        <a class="author-chip" href="https://vanoracai.github.io/" target="_blank" rel="noreferrer">Yujun Cai<sup>4</sup></a>
+        <a class="author-chip" href="https://www.skicyyu.org/" target="_blank" rel="noreferrer">Gang Yu<sup>2&ddagger;</sup></a>
+        <a class="author-chip" href="http://xingjunma.com/" target="_blank" rel="noreferrer">Xinjun Ma<sup>1&ddagger;</sup></a>
+      </div>
 
+      <div class="meta-row">
+        <span><sup>1</sup>Fudan University</span>
+        <span><sup>2</sup>StepFun</span>
+        <span><sup>3</sup>HKU MMLab</span>
+        <span><sup>4</sup>University of Queensland</span>
+      </div>
+      <div class="meta-row">
+        <span><sup>&dagger;</sup>Project Lead</span>
+        <span><sup>&ddagger;</sup>Correspondence Authors</span>
+      </div>
 
-                        <div class="is-size-4 publication-authors">
-                            <span class="author-block">
-                                <a href="https://github.com/YiyingYang12/YiyingYang12">Yiying Yang</a><sup>1,2</sup>,</span>
-                            <span class="author-block">
-                                <a href="https://wchengad.github.io">Wei Cheng</a><sup>2*</sup>,</span>
-                            <span class="author-block">
-                                <a href="https://ch3cook-fdu.github.io/">Sijin Chen</a><sup>3</sup>,</span>
-                            <span class="author-block">
-							<a href="https://romgai.github.io/">Honghao Fu</a><sup>2,4</sup>,</span>
-			<span class="author-block">
-                        </div>
-                        <div class="is-size-4 publication-authors">
-					<span class="author-block">
-                              <a href="https://scholar.google.com/citations?user=tgDc0fsAAAAJ&hl=en">XianFang Zeng</a><sup>2</sup>,
-                            </span>
-                            <span class="author-block">
-                              <a href="https://scholar.google.com/citations?user=TE7lbQwAAAAJ&hl=en">Yujun Cai</a><sup>4</sup>,
-                            </span>
-                            <span class="author-block">
-                                <a href="https://www.skicyyu.org/">Gang Yu</a><sup>2&ddagger;</sup>,</span>
-                            <span class="author-block">
-                                <a href="http://xingjunma.com/">Xinjun Ma</a><sup>1&ddagger;</sup>,
-                            </span>
-                        </div>
-                                
-                        <div class="is-size-5 publication-authors">
-                            <span class="author-block"><sup>*</sup>Project Lead,</span>
-                            <span class="author-block"><sup>&ddagger;</sup>Correspondence Authors</span>
-                        </div>
-
-                        <div class="is-size-5 publication-authors">
-                            <span class="author-block"><sup>1</sup>Fudan University,</span>
-                            <span class="author-block"><sup>2</sup>StepFun,</span>
-							 <span class="author-block"><sup>3</sup>HKU MMLab,</span>
-							 <span class="author-block"><sup>4</sup>University of Queensland</span>
-                        </div>
-                        
-						<div class="is-size-3 publication-authors" style="margin-top: 15px;">
-                            <span style="font-weight: bold; color: #b39ddb;">CVPR 2026</span>
-                        </div>
-
-                        <div class="column has-text-centered">
-                            <div class="publication-links">
-                                <!-- arXiv Link -->
-                                <span class="link-block">
-                                    <a href="https://github.com/OpenVGLab/OmniLottie" target="_blank" class="external-link button is-normal is-rounded is-dark">
-                                        <span class="icon">
-                                            <i class="ai ai-arxiv"></i>
-                                        </span>
-                                        <span>arXiv</span>
-                                    </a>
-                                </span>
-
-                                <!-- Github Link -->
-                                <span class="link-block">
-                                    <a href="https://github.com/OpenVGLab/OmniLottie" target="_blank" class="external-link button is-normal is-rounded is-dark">
-                                        <span class="icon">
-                                            <i class="fab fa-github" style="color: white;"></i>
-                                        </span>
-                                        <span>Code</span>
-                                    </a>
-                                </span>
-
-                                <!-- Weights Link -->
-                                <span class="link-block">
-                                    <a href="https://huggingface.co/OmniLottie/OmniLottie-4B" target="_blank" class="external-link button is-normal is-rounded is-dark">
-                                        <span class="icon">
-                                            <img src="https://huggingface.co/front/assets/huggingface_logo.svg" alt="Hugging Face Logo" style="width: 20px; height: 20px;">
-                                        </span>
-                                        <span>Weights</span>
-                                    </a>
-                                </span>
-
-                                <!-- Dataset Link -->
-                                <span class="link-block">
-                                    <a href="https://huggingface.co/datasets/OmniLottie/MMLottie-2M" target="_blank" class="external-link button is-normal is-rounded is-dark">
-                                        <span class="icon">
-                                            <img src="https://huggingface.co/front/assets/huggingface_logo.svg" alt="Hugging Face Logo" style="width: 20px; height: 20px;">
-                                        </span>
-                                        <span>MMLottie-2M</span>
-                                    </a>
-                                </span>
-								
-                                <!-- Benchmark Link -->
-                                <span class="link-block">
-                                    <a href="https://huggingface.co/datasets/OmniLottie/MMLottieBench" target="_blank" class="external-link button is-normal is-rounded is-dark">
-                                        <span class="icon">
-                                            <img src="https://huggingface.co/front/assets/huggingface_logo.svg" alt="Hugging Face Logo" style="width: 20px; height: 20px;">
-                                        </span>
-                                        <span>MMLottie Bench</span>
-                                    </a>
-                                </span>
-
-                                <!-- Demo Link -->
-                                <span class="link-block">
-                                    <a href="https://github.com/OpenVGLab/OmniLottie" target="_blank" class="external-link button is-normal is-rounded is-dark">
-                                        <span class="icon">
-                                            <i class="fas fa-play"></i>
-                                        </span>
-                                        <span>Demo</span>
-                                    </a>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      <div class="links">
+        <a class="link-pill" href="https://arxiv.org" target="_blank" rel="noreferrer"><i class="fa-solid fa-file-lines"></i>arXiv</a>
+        <a class="link-pill" href="https://github.com/OpenVGLab/OmniLottie" target="_blank" rel="noreferrer"><i class="fa-brands fa-github"></i>Code</a>
+        <a class="link-pill" href="https://huggingface.co/OmniLottie/OmniLottie" target="_blank" rel="noreferrer">
+          <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="HuggingFace" style="height:1.05em;vertical-align:-0.10em;margin-right:-0.09em;">Model
+        </a>
+        <a class="link-pill" href="https://huggingface.co/datasets/OmniLottie/MMLottie-2M" target="_blank" rel="noreferrer">
+          <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="HuggingFace" style="height:1.05em;vertical-align:-0.10em;margin-right:-0.09em;">MMLottie-2M
+        </a>
+        <a class="link-pill" href="https://huggingface.co/datasets/OmniLottie/MMLottieBench" target="_blank" rel="noreferrer">
+          <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="HuggingFace" style="height:1.05em;vertical-align:-0.10em;margin-right:-0.09em;">MMLottie-Bench
+        </a>
+        <a class="link-pill" href="https://huggingface.co/datasets/OmniLottie/MMLottie-2M" target="_blank" rel="noreferrer">
+          <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="HuggingFace" style="height:1.05em;vertical-align:-0.10em;margin-right:-0.09em;">Demo
+        </a>
+      </div>
     </section>
 
-    <!-- Banner Video -->
-    <section class="section">
-        <div class="container is-max-desktop">
-            <div class="columns is-centered has-text-centered" style="margin-top: -20px">
-                <video src="./assets/OmniLottie-main-demo.mp4" width="100%" autoplay loop muted playsinline></video>
-            </div>
-        </div>
+    <section class="panel">
+      <div class="section-head">
+        <h2>Lottie Parametrization and Generation Process</h2>
+        <!-- <p>上方主 Demo + 下方 3 个叠加切换 Demo</p> -->
+      </div>
+
+      <div class="demo-stack">
+        <article class="video-shell">
+          <!-- <div class="video-chip">Lottie Parametrization and Generation Process</div> -->
+          <div class="video-frame">
+            <video src="./assets/OmniLottie-main-demo.mp4" autoplay muted loop playsinline controls></video>
+          </div>
+        </article>
+
+        <article class="video-shell">
+          <!-- <div class="video-chip">Overlay Demos</div> -->
+          <div class="overlay-player" id="overlayPlayer">
+            <video class="overlay-video active" src="./assets/OmniLottie-demo-1.mp4" autoplay muted loop playsinline></video>
+            <video class="overlay-video" src="./assets/OmniLottie-demo-2.mp4" autoplay muted loop playsinline></video>
+            <video class="overlay-video" src="./assets/OmniLottie-demo-3.mp4" autoplay muted loop playsinline></video>
+          </div>
+          <div class="overlay-controls" id="overlayControls">
+            <button class="overlay-btn active" type="button" data-index="0">Demo 1</button>
+            <button class="overlay-btn" type="button" data-index="1">Demo 2</button>
+            <button class="overlay-btn" type="button" data-index="2">Demo 3</button>
+          </div>
+        </article>
+      </div>
     </section>
 
-    <!-- Abstract -->
-    <section class="section">
-        <div class="container is-max-desktop">
-            <div class="columns is-centered has-text-centered" style="margin-top: -80px">
-                <div class="column is-four-fifths">
-                    <h2 class="title is-2">Abstract</h2>
-                    <div class="content has-text-justified">
-                        <p>
-                            <b>OmniLottie</b> is a versatile framework that generates high-quality vector animations from multi-modal instructions.
-                            For flexible motion and visual content control, we focus on Lottie, a light-weight JSON formatting for both shapes and animation behaviors representation.
-                            However, the raw Lottie JSON files contain extensive invariant structural metadata and formatting tokens, posing significant challenges for learning vector animation generation.
-                            Therefore, we introduce a well-designed <b>Lottie tokenizer</b> that transforms JSON files into structured sequences of commands and parameters representing shapes, animation functions and control parameters.
-                            Such tokenizer enables us to build OmniLottie upon pretrained vision–language models to follow multi-modal interleaved instructions and generate high-quality vector animations.
-                            To further advance research in vector animation generation, we curate <b>MMLottie-2M</b>, a large-scale dataset of professionally designed vector animations paired with textual and visual annotations.
-                            With extensive experiments, we validate that OmniLottie can produce vivid and semantically aligned vector animations that adhere closely to multi-modal human instructions.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <section class="panel">
+      <div class="section-head">
+        <h2>Generated Lottie Gallery</h2>
+        <!-- <p>3 行反向流式跑马灯 · Hover 即暂停</p> -->
+      </div>
+      <div id="lottieStatus" class="status">Loading...</div>
+      <div id="lottieRows" class="lottie-rows"></div>
     </section>
 
-    <!-- Highlights -->
-    <section class="hero" id="teaser" style="margin-bottom: 50px; margin-top: 50px;">
-        <div class="container is-max-desktop">
-            <div class="columns is-centered" style="margin-top: 15px">
-                <div class="column is-full-width">
-                    <h2 class="title is-4">Highlights</h2>
-                    <div class="columns is-centered" style="text-align: center">
-                        <div class="column" style="align-self: center">
-                            <img src="./assets/OmniLottie-teaser.png" alt="OmniLottie Teaser">
-                        </div>
-                    </div>
-                    <div class="content has-text-justified" style="padding-top: 15px">
-                        OmniLottie is capable of generating high-quality vector animations across a wide spectrum of complexity — from simple icons to intricate animated illustrations. 
-                        It demonstrates remarkable versatility through multiple generation modalities, including <b>Text-to-Lottie</b>, <b>Text-Image-to-Lottie</b>, and <b>Video-to-Lottie</b>, 
-                        making it a powerful and flexible solution for diverse creative and professional animation tasks.
-                    </div>
-                </div>
-            </div>
+    <section class="panel">
+      <div class="section-head">
+        <h2>Introducing OmniLottie</h2>
+        <!-- <p>Dataset（Image #3）与技术路径（Image #2）</p> -->
+      </div>
 
-            <!-- Method Overview -->
-            <div class="columns is-centered" style="margin-top: 15px">
-                <div class="column is-full-width">
-                    <h2 class="title is-4">Method Overview</h2>
-                    <div class="columns is-centered" style="text-align: center">
-                        <div class="column" style="align-self: center">
-                            <img src="./assets/OmniLottie-pipeline.png" alt="OmniLottie Pipeline">
-                        </div>
-                    </div>
-                    <div class="content has-text-justified" style="padding-top: 15px">
-                        OmniLottie is built on a pre-trained vision-language model (Qwen2.5-VL) and incorporates a Lottie tokenizer. 
-                        The model tokenizes both text and image/video inputs as prefix tokens, while the Lottie tokenizer encodes vector animation commands into a unified representation space.
-                        The Lottie tokenizer abstracts Lottie animations into compact sequences of animation commands and control parameters, removing redundant metadata while preserving full generative flexibility.
-                    </div>
-                </div>
-            </div>
-        </div>
+      <div class="tech-grid">
+        <article class="tech-card">
+          <h3>MMLottie-2M Dataset</h3>
+          <!-- <p>MMLottie-2M 汇集大规模专业 Lottie 动画及多模态标注，覆盖文本、关键帧和视频渲染，支持从语义到细节动作的学习。</p> -->
+          <p><b>Overview of the Vector Animation Data Construction Pipeline.</b> 
+            <b>Data Collection & Conversion :</b> We convert SVG assets into static Lottie files and apply randomized animation effects to generate effect-tagged animated Lotties. In parallel, we gather professionally created Lottie animations from five online platforms and perform thorough filtering and cleaning. <b>Data Processing :</b> Each animation undergoes spatio-temporal normalization, followed by video rendering and random keyframe extraction. <b>Data Annotation :</b> Finally, we provide multi-granularity annotations emphasizing geometric structure, color attributes, and motion characteristics.</p>
+          <img src="./assets/OmniLottie-data-pipeline.png" alt="Dataset and data processing pipeline">
+        </article>
+
+        <article class="tech-card">
+          <h3>OmniLottie Model</h3>
+          <p><b>Overview of OmniLottie.</b> 
+            <b>Lottie Structure :</b> We reorganize the Lottie JSON representation, with a particular focus on the structure of its layers, including both common layer attributes and five special layer types. <b>Lottie Parametrization :</b> The hierarchical JSON format of Lottie is flattened into a sequence of function calls, which are further parameterized to define a dedicated vocabulary and token set for Lottie. <b>OmniLottie :</b> Built upon this parameterization, OmniLottie extends Qwen2.5-VL with a new tokenizer and vocabulary for Lottie, and is trained on our curated Lottie dataset.</p>
+          <img src="./assets/OmniLottie-pipeline.png" alt="Technical pipeline">
+        </article>
+      </div>
     </section>
 
-    <!-- Generation Process -->
-    <section class="section">
-        <div class="container is-max-desktop" style="margin-top: 30px;">
-            <h3 class="title is-4">Generation Process of OmniLottie</h3>
-            <div>
-                <section class="section" style="overflow:hidden">
-                    <div class="container">
-                        <div id="post_images" class="carousel">
-                            <div class="item-1">
-                                <video poster="" autoplay="" muted loop="" style="pointer-events: none;">
-                                    <source src="./assets/OmniLottie-demo-1.mp4" type="video/mp4">
-                                </video>
-                            </div>
-                            <div class="item-2">
-                                <video poster="" autoplay="" muted loop="" style="pointer-events: none;">
-                                    <source src="./assets/OmniLottie-demo-2.mp4" type="video/mp4">
-                                </video>
-                            </div>
-                            <div class="item-3">
-                                <video poster="" autoplay="" muted loop="" style="pointer-events: none;">
-                                    <source src="./assets/OmniLottie-demo-3.mp4" type="video/mp4">
-                                </video>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+    <section class="panel">
+      <div class="section-head">
+        <h2>Citation</h2>
+      </div>
 
-                <script src="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/js/bulma-carousel.min.js"></script>
-                <script>
-                    bulmaCarousel.attach('#post_images', {
-                        slidesToScroll: 1,
-                        slidesToShow: 1,
-                        loop: true,
-                    });
-                </script>
-            </div>
-
-
-            <!-- Dataset Section -->
-            <div class="columns is-centered" style="margin-top: 20px">
-                <div class="column is-full-width">
-                    <h3 class="title is-4">MMLottie-2M Dataset</h3>
-                    <div class="content has-text-justified" style="padding-top: 15px">
-                        The MMLottie-2M dataset consists of two million Lottie animations paired with multi-modal annotations including text descriptions, keyframe images, and rendered videos.
-                        Data is collected from major online platforms (LottieFiles, IconScout, Flaticon, Iconfont, Icons8) and augmented with SVG-derived animations.
-                        The dataset undergoes comprehensive processing including Lottie cleaning, spatial-temporal normalization, video rendering, and coarse-to-fine captioning using VLMs.
-                    </div>
-                </div>
-            </div>
-
-            <!-- Data Pipeline -->
-            <div class="columns is-centered" style="margin-top: 20px">
-                <div class="column is-full-width">
-                    <h3 class="title is-4">Data Processing Pipeline</h3>
-                    <div class="columns is-centered">
-                        <div class="column" style="align-self: center">
-                            <img src="./assets/OmniLottie-data-pipeline.png" alt="Data Processing Pipeline">
-                        </div>
-                    </div>
-                    <div class="content has-text-justified" style="padding-top: 15px">
-                        Our data processing pipeline includes five stages: (1) Data collection from web sources and SVG conversion, 
-                        (2) Lottie cleaning to remove non-visual and non-parameterizable layers, 
-                        (3) Spatial-temporal normalization to 512×512 canvas and unified timeline, 
-                        (4) Video rendering with random backgrounds, and 
-                        (5) Multi-modal annotation using a coarse-to-fine VLM captioning strategy.
-                    </div>
-                </div>
-            </div>
-
-            <br>
-
-            <!-- Related Links -->
-            <div class="columns is-centered">
-                <div class="column is-full-width">
-                    <h2 class="title is-3">Related Links</h2>
-                    <div class="content has-text-justified">
-                        <p>
-                            <b>We thank the following excellent open-source works:</b>
-                        </p>
-                        <p>
-                            <a href="https://omnisvg.github.io/"><b>OmniSVG</b></a>: A unified framework for SVG generation that leverages pre-trained VLMs. We build upon its methodology for vector graphics generation.
-                        </p>
-                        <p>
-                            <a href="https://icon-shop.github.io/"><b>IconShop</b></a>: The first work leveraging LLMs to generate monochrome, icon-level SVGs. We referred to its parametric implementation.
-                        </p>
-                        <p>
-                            <b>Concurrent Works:</b>
-                        </p>
-                        <p>
-                            <a href="https://aniclipart.github.io/"><b>AniClipart</b></a>: Animates static clipart using text-to-video diffusion priors.
-                        </p>
-                        <p>
-                            <a href="#"><b>LiveSketch</b></a>: Generates sketch animations through optimization-based approaches.
-                        </p>
-                        <p>
-                            <a href="https://starvector.github.io/"><b>StarVector</b></a>: Equips LLM with an image encoder for Image-to-SVG generation.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Acknowledgements -->
-            <div class="columns is-centered">
-                <div class="column is-full-width">
-                    <h2 class="title is-3">Acknowledgements</h2>
-                    <div class="content has-text-justified">
-                        <p>
-                            We thank all the contributors for dataset construction and valuable discussions.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
+      <div class="citation-box">
+        <pre id="citationText">@article{omnilottie2026,
+  title={OmniLottie: Generating Vector Animations via Parameterized Lottie Tokens},
+  author={Yang, Yiying and Cheng, Wei and Chen, Sijin and Fu, Honghao and Zeng, XianFang and Cai, Yujun and Yu, Gang and Ma, Xinjun},
+  journal={In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  year={2026}
+}</pre>
+      </div>
+      <div class="citation-actions">
+        <button id="copyCitation" class="copy-btn" type="button">Copy Citation</button>
+      </div>
     </section>
 
-    <!-- BibTeX -->
-    <section class="section" id="BibTeX">
-        <div class="container is-max-desktop content">
-            <h2 class="title">BibTeX</h2>
-            <pre><code>@article{omnilottie2025,
-  title={OmniLottie: A Unified Scalable Vector Animation Generation Model},
-  author={Author1 and Author2 and Author3 and Author4 and Author5 and Author6 and Author7 and Author8 and Author9 and Author10},
-  journal={arXiv preprint arXiv:XXXX.XXXXX},
-  year={2025}
-}</code></pre>
-        </div>
-    </section>
+    <div class="footer">OmniLottie · Reforged with dreamy neon vector aesthetics.</div>
+  </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="columns is-centered">
-                <div class="column is-8">
-                    <div class="content">
-                        <p style="text-align:center">
-                            Source code mainly borrowed from <a href="https://keunhong.com/">Keunhong Park</a>'s <a href="https://nerfies.github.io/">Nerfies website</a>.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+  <script>
+    const THEME_KEY = 'omnilottie-theme';
+    const laneStates = [];
+    let overlayTimer = null;
+    let lanesLoopStarted = false;
 
+    function applyTheme(theme) {
+      const mode = theme === 'light' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', mode);
+      localStorage.setItem(THEME_KEY, mode);
+      const btn = document.getElementById('themeToggle');
+      if (btn) {
+        btn.textContent = mode === 'dark' ? 'Bright Mode' : 'Dark Mode';
+      }
+    }
+
+    function initTheme() {
+      const cached = localStorage.getItem(THEME_KEY);
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      applyTheme(cached || (prefersDark ? 'dark' : 'light'));
+
+      const btn = document.getElementById('themeToggle');
+      if (!btn) return;
+      btn.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        applyTheme(current === 'dark' ? 'light' : 'dark');
+      });
+    }
+
+    function initOverlayPlayer() {
+      const videos = [...document.querySelectorAll('#overlayPlayer .overlay-video')];
+      const buttons = [...document.querySelectorAll('#overlayControls .overlay-btn')];
+      if (!videos.length || !buttons.length) return;
+
+      const switchTo = (index) => {
+        videos.forEach((video, i) => {
+          const active = i === index;
+          video.classList.toggle('active', active);
+          if (active) {
+            video.currentTime = video.currentTime || 0;
+            video.play().catch(() => {});
+          }
+        });
+        buttons.forEach((button, i) => button.classList.toggle('active', i === index));
+      };
+
+      let current = 0;
+
+      function restartTimer(startIndex) {
+        if (typeof startIndex === 'number') current = startIndex;
+        if (overlayTimer) clearInterval(overlayTimer);
+        overlayTimer = setInterval(() => {
+          current = (current + 1) % videos.length;
+          switchTo(current);
+        }, 4500);
+      }
+
+      buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const idx = Number(button.dataset.index || 0);
+          switchTo(idx);
+          restartTimer(idx);
+        });
+      });
+
+      switchTo(0);
+      restartTimer(0);
+    }
+
+    function prettyName(file) {
+      return file
+        .replace('.json', '')
+        .replace(/_/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    function normalizeJsonName(input) {
+      const noHash = String(input || '').split('#')[0];
+      const noQuery = noHash.split('?')[0];
+      const rawName = noQuery.split('/').pop() || '';
+      try {
+        return decodeURIComponent(rawName);
+      } catch (_) {
+        return rawName;
+      }
+    }
+
+    async function loadManifestFiles(manifestPath) {
+      try {
+        const response = await fetch(manifestPath, { cache: 'no-store' });
+        if (!response.ok) return [];
+        const data = await response.json();
+        if (!Array.isArray(data.files)) return [];
+        return data.files
+          .map(normalizeJsonName)
+          .filter((name) => name.toLowerCase().endsWith('.json') && name.toLowerCase() !== 'manifest.json');
+      } catch (_) {
+        return [];
+      }
+    }
+
+    async function scanDirectoryJsonFiles(baseDir) {
+      try {
+        const response = await fetch(`${baseDir}/`, { cache: 'no-store' });
+        if (!response.ok) return [];
+        const html = await response.text();
+        const links = [...html.matchAll(/href\s*=\s*["']([^"']+)["']/gi)].map((match) => match[1]);
+        return links
+          .map(normalizeJsonName)
+          .filter((name) => name.toLowerCase().endsWith('.json') && name.toLowerCase() !== 'manifest.json');
+      } catch (_) {
+        return [];
+      }
+    }
+
+    function uniqueSorted(files) {
+      return [...new Set(files)].sort((a, b) => a.localeCompare(b));
+    }
+
+    async function loadAllJsonFiles() {
+      const baseDirs = ['./assets/demo_new_set', './assets/demo_newset'];
+
+      for (const baseDir of baseDirs) {
+        const [directoryFiles, manifestFiles] = await Promise.all([
+          scanDirectoryJsonFiles(baseDir),
+          loadManifestFiles(`${baseDir}/manifest.json`)
+        ]);
+
+        const files = uniqueSorted([...directoryFiles, ...manifestFiles]);
+        if (files.length) {
+          const source = directoryFiles.length ? 'directory+manifest' : 'manifest';
+          return { files, baseDir, source };
+        }
+      }
+
+      return { files: [], baseDir: '', source: 'none' };
+    }
+
+    function createCard(file, baseDir, index, laneState) {
+      const card = document.createElement('article');
+      card.className = 'lottie-card';
+
+      const canvas = document.createElement('div');
+      canvas.className = 'lottie-canvas';
+
+      const label = document.createElement('div');
+      label.className = 'lottie-name';
+      label.textContent = prettyName(file);
+      label.title = prettyName(file);
+
+      card.appendChild(canvas);
+      card.appendChild(label);
+
+      const animation = window.lottie.loadAnimation({
+        container: canvas,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: `${baseDir}/${encodeURIComponent(file)}`,
+        rendererSettings: {
+          progressiveLoad: true,
+          preserveAspectRatio: 'xMidYMid meet'
+        }
+      });
+      animation.setSpeed(0.8 + (index % 8) * 0.04);
+
+      card.addEventListener('mouseenter', () => {
+        animation.pause();
+        laneState.paused = true;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        animation.play();
+        laneState.paused = false;
+      });
+
+      return card;
+    }
+
+    function createLane(files, baseDir, laneIndex) {
+      const lane = document.createElement('div');
+      lane.className = 'lottie-lane';
+
+      const track = document.createElement('div');
+      track.className = 'lane-track';
+      lane.appendChild(track);
+
+      const direction = laneIndex % 2 === 0 ? 'left' : 'right';
+      const laneState = {
+        lane,
+        track,
+        laneIndex,
+        direction,
+        speed: 0.34 + laneIndex * 0.08,
+        offset: 0,
+        paused: false,
+        gap: 10
+      };
+
+      files.forEach((file, idx) => {
+        track.appendChild(createCard(file, baseDir, idx, laneState));
+      });
+
+      lane.addEventListener('mouseenter', () => { laneState.paused = true; });
+      lane.addEventListener('mouseleave', () => { laneState.paused = false; });
+      laneStates.push(laneState);
+
+      return lane;
+    }
+
+    function tickLanes(timestamp) {
+      laneStates.forEach((state) => {
+        if (state.paused) return;
+
+        const cards = state.track.children;
+        if (!cards.length) return;
+
+        state.gap = Number.parseFloat(getComputedStyle(state.track).gap || '10') || 10;
+        state.offset += state.speed;
+        const wave = Math.sin(timestamp * 0.001 + state.laneIndex) * 2.2;
+
+        if (state.direction === 'left') {
+          let first = state.track.firstElementChild;
+          while (first) {
+            const width = first.getBoundingClientRect().width + state.gap;
+            if (state.offset < width) break;
+            state.track.appendChild(first);
+            state.offset -= width;
+            first = state.track.firstElementChild;
+          }
+          state.track.style.transform = `translate3d(${-state.offset}px, ${wave}px, 0)`;
+        } else {
+          let last = state.track.lastElementChild;
+          while (last) {
+            const width = last.getBoundingClientRect().width + state.gap;
+            if (state.offset < width) break;
+            state.track.insertBefore(last, state.track.firstElementChild);
+            state.offset -= width;
+            last = state.track.lastElementChild;
+          }
+          state.track.style.transform = `translate3d(${state.offset}px, ${-wave}px, 0)`;
+        }
+      });
+
+      requestAnimationFrame(tickLanes);
+    }
+
+    async function initLottieWall() {
+      const statusEl = document.getElementById('lottieStatus');
+      const rowsEl = document.getElementById('lottieRows');
+      if (!statusEl || !rowsEl) return;
+
+      const { files, baseDir, source } = await loadAllJsonFiles();
+      if (!files.length) {
+        statusEl.textContent = '未找到 JSON 资源，请检查 assets/demo_new_set 目录或 manifest.json';
+        return;
+      }
+
+      const rows = [[], [], []];
+      files.forEach((file, index) => rows[index % 3].push(file));
+
+      rows.forEach((rowFiles, laneIndex) => {
+        rowsEl.appendChild(createLane(rowFiles, baseDir, laneIndex));
+      });
+
+      statusEl.textContent = `Loaded ${files.length}  Lottie files, all generated by OmniLottie`;
+      if (!lanesLoopStarted) {
+        lanesLoopStarted = true;
+        requestAnimationFrame(tickLanes);
+      }
+    }
+
+    function initCitationCopy() {
+      const btn = document.getElementById('copyCitation');
+      const citationEl = document.getElementById('citationText');
+      if (!btn || !citationEl) return;
+
+      btn.addEventListener('click', async () => {
+        const text = citationEl.textContent || '';
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = '已复制';
+          setTimeout(() => { btn.textContent = '复制 Citation'; }, 1200);
+        } catch (_) {
+          btn.textContent = '复制失败';
+          setTimeout(() => { btn.textContent = '复制 Citation'; }, 1200);
+        }
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      initOverlayPlayer();
+      initLottieWall();
+      initCitationCopy();
+    });
+  </script>
 </body>
-
 </html>
