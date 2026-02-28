@@ -630,7 +630,7 @@
         <article class="video-shell">
           <!-- <div class="video-chip">Lottie Parametrization and Generation Process</div> -->
           <div class="video-frame">
-            <video src="./assets/OmniLottie-main-demo.mp4" autoplay muted loop playsinline controls></video>
+            <video src="./assets/OmniLottie-main-demo.mp4" autoplay muted loop playsinline></video>
           </div>
         </article>
 
@@ -980,10 +980,10 @@
         const text = citationEl.textContent || '';
         try {
           await navigator.clipboard.writeText(text);
-          btn.textContent = '已复制';
+          btn.textContent = 'Copied Citation';
           setTimeout(() => { btn.textContent = 'Copied Citation'; }, 1200);
         } catch (_) {
-          btn.textContent = '复制失败';
+          btn.textContent = 'Copy Citation Failed';
           setTimeout(() => { btn.textContent = 'Copied Citation'; }, 1200);
         }
       });
