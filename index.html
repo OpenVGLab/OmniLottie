@@ -189,8 +189,8 @@
       border-radius: 999px;
       background: var(--button-bg);
       color: var(--btn-text);
-      padding: 8px 16px;
-      font-size: 0.86rem;
+      padding: 8px 12px;
+      font-size: 1.1rem;
       font-weight: 800;
       cursor: pointer;
       transition: transform 0.2s ease, filter 0.2s ease;
@@ -568,7 +568,7 @@
         <span class="tag" style="font-size:1.20em; display:inline-flex; align-items:center; gap:0.28em;">
           <span style="font-weight:800;">CVPR 2026</span>
         </span>
-        <button id="themeToggle" class="theme-toggle" type="button" style="margin-left:auto;">Bright Mode</button>
+        <button id="themeToggle" class="theme-toggle" type="button" style="margin-left:auto;" aria-label="Bright Mode"><i class="fa-solid fa-sun"></i></button>
       </div>
 
       <h1 class="hero-title">OmniLottie: Generating Vector Animations via Parameterized Lottie Tokens</h1>
@@ -716,7 +716,11 @@
       localStorage.setItem(THEME_KEY, mode);
       const btn = document.getElementById('themeToggle');
       if (btn) {
-        btn.textContent = mode === 'dark' ? 'Bright Mode' : 'Dark Mode';
+        const icon = btn.querySelector('i');
+        if (icon) {
+          icon.className = mode === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        }
+        btn.setAttribute('aria-label', mode === 'dark' ? 'Bright Mode' : 'Dark Mode');
       }
     }
 
