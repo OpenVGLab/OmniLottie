@@ -3724,8 +3724,6 @@ class LottieTensor:
             if model_path is None:
                 # 尝试多个可能的路径
                 possible_paths = [
-                    '/mnt/jfs-test/Qwen2.5-VL-3B-Instruct',
-                    '/data/models/Qwen2.5-VL-3B-Instruct',
                     'Qwen/Qwen2.5-VL-3B-Instruct',  # HuggingFace Hub
                 ]
                 for path in possible_paths:
@@ -3746,7 +3744,7 @@ class LottieTensor:
     def get_tokenizer(cls):
         if cls.tokenizer is None:
             from transformers import AutoTokenizer
-            cls.tokenizer = AutoTokenizer.from_pretrained('/mnt/jfs-test/Qwen2.5-VL-3B-Instruct')
+            cls.tokenizer = AutoTokenizer.from_pretrained('Qwen/Qwen2.5-VL-3B-Instruct')
         return cls.tokenizer
     
 
