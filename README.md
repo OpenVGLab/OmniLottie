@@ -367,10 +367,12 @@ OmniLottie is licensed under the [**Apache License 2.0**](https://www.apache.org
 ```
 
 ## Acknowledgments
-We thank the following excellent open-source works:
+We thank the following projects and resources for their valuable contributions:
 
-- **Data Sources**: LottieFiles, IconScout, Flaticon, Iconfont, Icons8
-- **SVG Base**: MMSVG-2M dataset
+- **Data Sources**: [LottieFiles](https://lottiefiles.com), [IconScout](https://iconscout.com), [Flaticon](https://www.flaticon.com), [Iconfont](https://www.iconfont.cn), [Icons8](https://icons8.com)
+- **[python-lottie](https://github.com/eltiempoes/python-lottie)**: For providing excellent tools for Lottie manipulation and processing
+- **[MMSVG-Icon](https://huggingface.co/datasets/OmniSVG/MMSVG-Icon)**, **[MMSVG-Illustration](https://huggingface.co/datasets/OmniSVG/MMSVG-Illustration)**: For inspiring our multi-modal data curation approach
+
   
 ## Star History
 
