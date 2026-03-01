@@ -616,7 +616,7 @@
         <a class="link-pill" href="https://huggingface.co/datasets/OmniLottie/MMLottieBench" target="_blank" rel="noreferrer">
           <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="HuggingFace" style="height:1.05em;vertical-align:-0.10em;margin-right:-0.09em;">MMLottie-Bench
         </a>
-        <a class="link-pill" href="https://huggingface.co/datasets/OmniLottie/MMLottie-2M" target="_blank" rel="noreferrer">
+        <a class="link-pill" href="https://huggingface.co/spaces/OmniLottie/OmniLottie" target="_blank" rel="noreferrer">
           <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="HuggingFace" style="height:1.05em;vertical-align:-0.10em;margin-right:-0.09em;">Demo
         </a>
       </div>
@@ -625,7 +625,6 @@
     <section class="panel">
       <div class="section-head">
         <h2>Lottie Parametrization and Generation Process</h2>
-        <!-- <p>上方主 Demo + 下方 3 个叠加切换 Demo</p> -->
       </div>
 
       <div class="demo-stack">
@@ -663,13 +662,11 @@
     <section class="panel">
       <div class="section-head">
         <h2>Introducing OmniLottie</h2>
-        <!-- <p>Dataset（Image #3）与技术路径（Image #2）</p> -->
       </div>
 
       <div class="tech-grid">
         <article class="tech-card">
           <h3>MMLottie-2M Dataset</h3>
-          <!-- <p>MMLottie-2M 汇集大规模专业 Lottie 动画及多模态标注，覆盖文本、关键帧和视频渲染，支持从语义到细节动作的学习。</p> -->
           <p><b>Overview of the Vector Animation Data Construction Pipeline.</b> 
             <b>Data Collection & Conversion :</b> We convert SVG assets into static Lottie files and apply randomized animation effects to generate effect-tagged animated Lotties. In parallel, we gather professionally created Lottie animations from five online platforms and perform thorough filtering and cleaning. <b>Data Processing :</b> Each animation undergoes spatio-temporal normalization, followed by video rendering and random keyframe extraction. <b>Data Annotation :</b> Finally, we provide multi-granularity annotations emphasizing geometric structure, color attributes, and motion characteristics.</p>
           <img src="./assets/OmniLottie-data-pipeline.png" alt="Dataset and data processing pipeline">
