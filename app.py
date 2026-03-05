@@ -965,7 +965,6 @@ def create_gradio_interface():
 
     return demo
 
-# ========== 启动应用 ==========
 if __name__ == "__main__":
     demo = create_gradio_interface()
     demo.launch(
