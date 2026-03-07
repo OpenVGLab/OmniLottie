@@ -351,6 +351,50 @@ For detailed usage, see:
 OmniLottie is licensed under the [**Apache License 2.0**](https://www.apache.org/licenses/LICENSE-2.0), while MMLottie-2M dataset is under [**Creative Commons Attribution Non Commercial Share Alike 4.0 License**](https://spdx.org/licenses/CC-BY-NC-SA-4.0). You can find the license files in the respective github and HuggingFace repositories.
 
 
+## ⚠️ Dataset Disclaimer
+
+### Intended Use
+The MMLottie-2M Dataset (the "Dataset") is provided **exclusively for research and non-commercial purposes**. Any commercial use, redistribution for profit, or deployment in commercial products is strictly prohibited without explicit authorization.
+
+### Data Source & Intellectual Property
+- The Dataset is compiled from content that was originally publicly available on third-party websites.
+- **All copyrights, trademarks, and other intellectual property rights in the original content remain with their respective owners.**
+- The inclusion of any content in this Dataset does not imply endorsement, authorization, sponsorship, or any affiliation with the original content creators or rights holders.
+- The processing, filtering, and reorganization performed by the authors do not alter the ownership or intellectual property status of the underlying content.
+
+### No Warranties
+The Dataset is provided **"AS IS" and "AS AVAILABLE"**, without warranties of any kind, either express or implied, including but not limited to:
+- Accuracy, completeness, or reliability of the data
+- Merchantability or fitness for a particular purpose
+- Non-infringement of third-party rights
+- Freedom from errors, bugs, or harmful components
+
+### Limitation of Liability
+**Under no circumstances shall the authors, contributors, or affiliated organizations be liable for any direct, indirect, incidental, special, consequential, or punitive damages** arising from or related to:
+- The use or inability to use the Dataset
+- Any errors or omissions in the Dataset
+- Any claims by third parties regarding intellectual property infringement
+- Any actions taken based on the content of the Dataset
+
+### User Responsibilities
+By using the Dataset, you agree that:
+- You are solely responsible for ensuring compliance with all applicable laws, regulations, and third-party rights in your jurisdiction.
+- You will not use the Dataset for any illegal, harmful, or unethical purposes.
+- You will properly attribute the Dataset in any resulting publications or works.
+
+### Content Removal Requests
+If you are a rights holder and believe that any content in this Dataset infringes your intellectual property rights, please contact us immediately. We are committed to addressing legitimate concerns and will promptly remove any content upon verification of valid claims.
+
+---
+
+## 📧 Contact
+
+For questions, concerns, or content removal requests, please reach out through:
+
+- **Email**: [25113050158@m.fudan.edu.cn](mailto:25113050158@m.fudan.edu.cn)
+- **GitHub Issues**: [https://github.com/OpenVGLab/OmniLottie/issues](https://github.com/OpenVGLab/OmniLottie/issues)
+
+
 
 ## Citation
 
