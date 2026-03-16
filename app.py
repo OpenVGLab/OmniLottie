@@ -43,7 +43,8 @@ def load_model_once():
 
     checkpoint_path = "/PATH/TO/OmniLottie"
 
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "xpu:0" if torch.xpu.is_available() else "cpu")
 
     print(f"Loading model from {checkpoint_path}...")
     model = LottieDecoder(pix_len=4560, text_len=1500)
@@ -599,6 +600,8 @@ def process_text_to_lottie(text_prompt, max_tokens, use_sampling, temperature, t
             del inputs
             if torch.cuda.is_available():
                 torch.cuda.empty_cache()
+            if torch.xpu.is_available():
+                torch.xpu.empty_cache()
 
             lottie_json = tokens_to_lottie_json(generated_ids)
 
@@ -615,6 +618,8 @@ def process_text_to_lottie(text_prompt, max_tokens, use_sampling, temperature, t
         except Exception as e:
             if torch.cuda.is_available():
                 torch.cuda.empty_cache()
+            if torch.xpu.is_available():
+                torch.xpu.empty_cache()
             return None, f"❌ Error: {str(e)}", None
 
 def load_image_from_file(file_path):
@@ -663,6 +668,8 @@ def process_image_to_lottie(image_file, text_description, max_tokens, use_sampli
             del inputs
             if torch.cuda.is_available():
                 torch.cuda.empty_cache()
+            if torch.xpu.is_available():
+                torch.xpu.empty_cache()
 
             lottie_json = tokens_to_lottie_json(generated_ids)
 
@@ -679,6 +686,8 @@ def process_image_to_lottie(image_file, text_description, max_tokens, use_sampli
         except Exception as e:
             if torch.cuda.is_available():
                 torch.cuda.empty_cache()
+            if torch.xpu.is_available():
+                torch.xpu.empty_cache()
             return None, f"❌ Error: {str(e)}", None
 
 def process_video_to_lottie(video, max_tokens, use_sampling, temperature, top_p, top_k):
@@ -709,6 +718,8 @@ def process_video_to_lottie(video, max_tokens, use_sampling, temperature, top_p,
             del inputs
             if torch.cuda.is_available():
                 torch.cuda.empty_cache()
+            if torch.xpu.is_available():
+                torch.xpu.empty_cache()
 
             lottie_json = tokens_to_lottie_json(generated_ids)
 
@@ -725,6 +736,8 @@ def process_video_to_lottie(video, max_tokens, use_sampling, temperature, top_p,
         except Exception as e:
             if torch.cuda.is_available():
                 torch.cuda.empty_cache()
+            if torch.xpu.is_available():
+                torch.xpu.empty_cache()
             return None, f"❌ Error: {str(e)}", None
 
 def create_gradio_interface():

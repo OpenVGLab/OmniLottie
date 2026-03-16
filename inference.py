@@ -811,7 +811,7 @@ def run_batch_text_file_inference(args, cfg):
     """
     Generate Lottie from text file.
     """
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "xpu:0" if torch.xpu.is_available() else "cpu")
     print(f"Using device: {device}")
 
     if not os.path.exists(args.batch_text_file):
@@ -918,7 +918,7 @@ def run_mmlottie_bench_inference(args, cfg):
         - Task types: Text-to-Lottie, Text-Image-to-Lottie, Video-to-Lottie
         - Fields: id, text, image, video, task_type, subset, etc.
     """
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "xpu:0" if torch.xpu.is_available() else "cpu")
     print(f"Using device: {device}")
 
     # 1. Load dataset
@@ -1165,6 +1165,8 @@ def run_mmlottie_bench_inference(args, cfg):
             # Clear cache
             if torch.cuda.is_available():
                 torch.cuda.empty_cache()
+            if torch.xpu.is_available():
+                torch.xpu.empty_cache()
 
         except Exception as e:
             print(f"  ❌ Error: {e}")
@@ -1186,7 +1188,7 @@ def run_mmlottie_bench_inference(args, cfg):
 
 
 def run_single_inference(args, cfg):
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "xpu:0" if torch.xpu.is_available() else "cpu")
     
     print("Loading model...")
     processor = AutoProcessor.from_pretrained(cfg['tokenizer_name'], padding_side="left")
