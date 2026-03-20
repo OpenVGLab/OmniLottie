@@ -6,7 +6,7 @@ supporting automatic downloading from Hugging Face Hub.
 
 Environment Variables:
     MODEL_PATH: Model path or HF Hub ID (default: "OmniLottie/OmniLottie")
-    PROCESSOR_PATH: Processor path (default: "/mnt/jfs-test/Qwen2.5-VL-3B-Instruct")
+    PROCESSOR_PATH: Processor path (default: "Qwen/Qwen2.5-VL-3B-Instruct")
 
 Usage:
     # Using HF Hub model (automatic download)
@@ -84,7 +84,7 @@ def load_model_once():
     model = model.to(device).eval()
 
     # Load processor
-    processor_path = os.environ.get("PROCESSOR_PATH", "/mnt/jfs-test/Qwen2.5-VL-3B-Instruct")
+    processor_path = os.environ.get("PROCESSOR_PATH", "Qwen/Qwen2.5-VL-3B-Instruct")
     processor = AutoProcessor.from_pretrained(
         processor_path,
         padding_side="left",
