@@ -87,6 +87,7 @@ Install remaining dependencies:
 pip install -r requirements.txt
 ```
 
+
 ## 4. Inference
 
 |                                                  | GPU Memory Usage | Time per 256/512/1024/2048/4096 tokens |
@@ -94,6 +95,22 @@ pip install -r requirements.txt
 | OmniLottie     | 15.2G              | 8.34/16.68/33.38/66.74/133.49 seconds       |
 
 <font color="red">**Note: The inference time shown here is measured per OmniLottie Lottie tokens, while the inference time reported in our paper is measured per JSON code tokens for fair comparison with baseline methods.**</font>
+
+### Model Format Support
+
+OmniLottie supports **two model formats**:
+
+1. **Original Format** (`inference.py` / `app.py`):
+   - Model file: `pytorch_model.bin`
+   - For users who downloaded the model before HuggingFace format support
+
+2. **🤗 HuggingFace Format** (`inference_hf.py` / `app_hf.py`):
+   - Model files: `model-*.safetensors` + `config.json`
+   - Supports `from_pretrained()` API for automatic downloading
+   - Compatible with HuggingFace Hub ecosystem
+   - **Recommended for new users**
+
+Both formats produce identical results. Choose based on your model format.
 
 ### Quick Start
 
@@ -106,11 +123,58 @@ pip install huggingface-hub
 
 **Download the model from Hugging Face:**
 ```bash
-# Download OmniLottie model
+# Download OmniLottie model (HuggingFace format with safetensors)
 huggingface-cli download OmniLottie/OmniLottie --local-dir /PATH/TO/OmniLottie
 ```
 
-**Try with Example Data**
+### 🤗 Using HuggingFace Format (Recommended)
+
+If you downloaded the model in HuggingFace format (with `config.json` and `.safetensors` files), use `inference_hf.py` and `app_hf.py`:
+
+**Using from_pretrained() API (automatic download from HF Hub):**
+```bash
+# Text-to-Lottie
+python inference_hf.py \
+    --model_path OmniLottie/OmniLottie \
+    --text "A bouncing ball" \
+    --output output.json
+
+# Image-to-Lottie
+python inference_hf.py \
+    --model_path OmniLottie/OmniLottie \
+    --image image.png \
+    --text "rotating animation" \
+    --output output.json
+
+# Video-to-Lottie
+python inference_hf.py \
+    --model_path OmniLottie/OmniLottie \
+    --video video.mp4 \
+    --output output.json
+```
+
+**Using local HuggingFace format model:**
+```bash
+python inference_hf.py \
+    --model_path /PATH/TO/OmniLottie \
+    --text "A spinning star" \
+    --output output.json
+```
+
+**Launch Gradio demo (HuggingFace format):**
+```bash
+# Using local model
+MODEL_PATH=/PATH/TO/OmniLottie python app_hf.py
+
+# Or using HF Hub (automatic download)
+MODEL_PATH=OmniLottie/OmniLottie python app_hf.py
+```
+
+### Using Original Format
+
+If you have the original `pytorch_model.bin` format, use `inference.py` and `app.py`:
+
+**Try with Example Data (Original Format)**
 
 We provide example prompts, images, and videos in the `example/` directory:
 
@@ -245,9 +309,18 @@ python inference.py \
 
 ### Interactive Demo
 
-We provide an interactive generation interface using Gradio:
+We provide interactive generation interfaces using Gradio:
 
-- **Local Deployment**
+- **Local Deployment (HuggingFace Format - Recommended)**
+  ```bash
+  # Using local model
+  MODEL_PATH=/PATH/TO/OmniLottie python app_hf.py
+
+  # Or using HF Hub (automatic download)
+  MODEL_PATH=OmniLottie/OmniLottie python app_hf.py
+  ```
+
+- **Local Deployment (Original Format)**
   ```bash
   python app.py
   ```

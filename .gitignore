@@ -4,22 +4,52 @@ __pycache__/
 *$py.class
 *.so
 .Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
 # Virtual environments
 venv/
 ENV/
 env/
+.venv
 
-# IDE
-.vscode/
+# PyCharm
 .idea/
 
-# Temporary files
-*.sh
-=*
-GITHUB_ISSUE_RESPONSE.md
+# VSCode
+.vscode/
 
-# Distribution / packaging
-build/
-dist/
-*.egg-info/
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Model weights
+*.bin
+*.safetensors
+*.ckpt
+*.pth
+
+# Output files
+output/
+output_*/
+*.json.tmp
+temp_*/
+
+# OS
+.DS_Store
+Thumbs.db
