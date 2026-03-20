@@ -326,7 +326,7 @@ def main():
     # Model arguments
     parser.add_argument('--model_path', type=str, required=True,
                       help='Model path (local path or HF Hub ID, e.g. OmniLottie/OmniLottie)')
-    parser.add_argument('--processor_path', type=str, default='/mnt/jfs-test/Qwen2.5-VL-3B-Instruct',
+    parser.add_argument('--processor_path', type=str, default='Qwen/Qwen2.5-VL-3B-Instruct',
                       help='Processor path (local path or HF Hub ID)')
 
     # Input arguments (choose one)
