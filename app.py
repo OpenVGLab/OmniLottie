@@ -41,7 +41,7 @@ def load_model_once():
     if model is not None:
         return model, processor, device
 
-    checkpoint_path = "/PATH/TO/OmniLottie"
+    checkpoint_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "models", "OmniLottie")
 
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "xpu:0" if torch.xpu.is_available() else "cpu")
